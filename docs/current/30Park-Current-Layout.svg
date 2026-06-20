@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2000/svg" viewBox="-41 192 2712 1570" width="2712" height="1570">
+  <defs>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="UMLInheritance_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-6 -4 7 8" markerWidth="7" markerHeight="8" color="#00aeef">
+      <g>
+        <path d="M -4.32 0 L 0 2.52 L 0 -2.52 Z" fill="none" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+  </defs>
+  <g id="Canvas_1" fill="none" stroke-dasharray="none" stroke="none" stroke-opacity="1" fill-opacity="1">
+    <title>Canvas 1</title>
+    <rect fill="white" x="-41" y="192" width="2712" height="1570"/>
+    <g id="Canvas_1_Layer_1">
+      <title>Layer 1</title>
+      <g id="Graphic_2">
+        <title>room 14x12</title>
+        <rect x="2193" y="193" width="476" height="432" fill="white"/>
+        <rect x="2193" y="193" width="476" height="432" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(2211 379.5)" fill="#515556">
+          <tspan font-family="Avenir" font-size="14" fill="#515556" x="178.889" y="14" xml:space="preserve">Dining Room</tspan>
+          <tspan font-family="Avenir" font-size="14" fill="#515556" x="178.098" y="54" xml:space="preserve">11’8” x 18’6”</tspan>
+        </text>
+      </g>
+      <g id="Graphic_3">
+        <title>room 14x12</title>
+        <rect x="1717" y="193" width="476" height="432" fill="white"/>
+        <rect x="1717" y="193" width="476" height="432" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(1735 379.5)" fill="#515556">
+          <tspan font-family="Avenir" font-size="14" fill="#515556" x="187.821" y="14" xml:space="preserve">Sun Room</tspan>
+          <tspan font-family="Avenir" font-size="14" fill="#515556" x="174.206" y="54" xml:space="preserve">10’10” x 18’6”</tspan>
+        </text>
+      </g>
+      <g id="Graphic_6">
+        <title>room 14x12</title>
+        <rect x="871.6974" y="1143.4357" width="476" height="432" fill="white"/>
+        <rect x="871.6974" y="1143.4357" width="476" height="432" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(889.6974 1329.9357)" fill="#515556">
+          <tspan font-family="Avenir" font-size="14" fill="#515556" x="207.029" y="14" xml:space="preserve">Den</tspan>
+          <tspan font-family="Avenir" font-size="14" fill="#515556" x="193.148" y="54" xml:space="preserve">12’ x 12’</tspan>
+        </text>
+      </g>
+      <g id="Line_11">
+        <line x1="2670" y1="623" x2="2669" y2="1711" stroke="#7f8080" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_12">
+        <line x1="2665" y1="1713" x2="1717" y2="1709.696" stroke="#7f8080" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_13">
+        <line x1="1717" y1="1702" x2="1717" y2="1462" stroke="#7f8080" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_14">
+        <line x1="1717" y1="1462" x2="1358.9678" y2="1462" stroke="#7f8080" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_15">
+        <text transform="translate(2174.432 1460)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="4121148e-19" y="15" xml:space="preserve">Living Room</tspan>
+        </text>
+      </g>
+      <g id="Group_16">
+        <title>fireplace 48&quot;</title>
+        <g id="Group_19">
+          <g id="Graphic_22">
+            <rect x="2119" y="1671" width="144" height="90" fill="#b9bfc1"/>
+            <rect x="2119" y="1671" width="144" height="90" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          </g>
+          <g id="Graphic_21">
+            <path d="M 2141.25 1671 L 2241.25 1671 L 2221.25 1736 L 2161.25 1736 Z" fill="white"/>
+            <path d="M 2141.25 1671 L 2241.25 1671 L 2221.25 1736 L 2161.25 1736 Z" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          </g>
+          <g id="Graphic_20">
+            <rect x="2119" y="1646" width="144" height="25" fill="#f5fdff"/>
+            <rect x="2119" y="1646" width="144" height="25" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <text transform="translate(2137 1650.5)" fill="#989fa1">
+              <tspan font-family="Avenir" font-size="12" fill="#989fa1" x="29.436" y="12" xml:space="preserve">Fireplace</tspan>
+            </text>
+          </g>
+        </g>
+        <g id="Line_18">
+          <line x1="2300" y1="1686" x2="2264" y2="1686" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Line_17">
+          <line x1="2118" y1="1686" x2="2082" y2="1686" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+      </g>
+      <g id="Line_24">
+        <line x1="2194" y1="633" x2="2195" y2="1020.5309" stroke="#7f8080" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_26">
+        <title>room 8x10</title>
+        <rect x="1175.6974" y="864.5742" width="172" height="165.23456" fill="white"/>
+        <rect x="1175.6974" y="864.5742" width="172" height="165.23456" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(1193.6974 917.6914)" fill="#515556">
+          <tspan font-family="Avenir" font-size="14" fill="#515556" x="23.368" y="14" xml:space="preserve">Powder Room</tspan>
+          <tspan font-family="Avenir" font-size="14" fill="#515556" x="37.774" y="54" xml:space="preserve">61” x 61”</tspan>
+        </text>
+      </g>
+      <g id="Line_27">
+        <line x1="1349" y1="1025" x2="2194" y2="1021.3315" stroke="#7f8080" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_28">
+        <text transform="translate(1838.064 814)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="7993606e-19" y="15" xml:space="preserve">Kitchen</tspan>
+        </text>
+      </g>
+      <g id="Graphic_29">
+        <title>room 8x10</title>
+        <rect x="887.6974" y="864.5742" width="288" height="76.42584" fill="white"/>
+        <rect x="887.6974" y="864.5742" width="288" height="76.42584" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(905.6974 873.2871)" fill="#515556">
+          <tspan font-family="Avenir" font-size="14" fill="#515556" x="105.896" y="14" xml:space="preserve">Closet</tspan>
+          <tspan font-family="Avenir" font-size="14" fill="#515556" x="95.774" y="54" xml:space="preserve">72” x 24”</tspan>
+        </text>
+      </g>
+      <g id="Group_30">
+        <title>stairs down</title>
+        <g id="Graphic_44">
+          <rect x="751.6974" y="1140.4357" width="120" height="30" fill="white"/>
+          <rect x="751.6974" y="1140.4357" width="120" height="30" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_43">
+          <rect x="751.6974" y="1170.4357" width="120" height="30" fill="white"/>
+          <rect x="751.6974" y="1170.4357" width="120" height="30" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_42">
+          <rect x="751.6974" y="1200.4357" width="120" height="30" fill="white"/>
+          <rect x="751.6974" y="1200.4357" width="120" height="30" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_41">
+          <rect x="751.6974" y="1230.4357" width="120" height="30" fill="white"/>
+          <rect x="751.6974" y="1230.4357" width="120" height="30" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_40">
+          <rect x="751.6974" y="1260.4357" width="120" height="30" fill="white"/>
+          <rect x="751.6974" y="1260.4357" width="120" height="30" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_39">
+          <rect x="751.6974" y="1290.4357" width="120" height="30" fill="white"/>
+          <rect x="751.6974" y="1290.4357" width="120" height="30" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_38">
+          <rect x="751.6974" y="1320.4357" width="120" height="30" fill="white"/>
+          <rect x="751.6974" y="1320.4357" width="120" height="30" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_37">
+          <rect x="751.6974" y="1350.4357" width="120" height="30" fill="white"/>
+          <rect x="751.6974" y="1350.4357" width="120" height="30" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_36">
+          <rect x="751.6974" y="1380.4357" width="120" height="30" fill="white"/>
+          <rect x="751.6974" y="1380.4357" width="120" height="30" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_35">
+          <rect x="751.6974" y="1410.4357" width="120" height="30" fill="white"/>
+          <rect x="751.6974" y="1410.4357" width="120" height="30" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_34">
+          <rect x="751.6974" y="1440.4357" width="120" height="30" fill="white"/>
+          <rect x="751.6974" y="1440.4357" width="120" height="30" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_33">
+          <rect x="751.6974" y="1470.4357" width="120" height="105" fill="white"/>
+          <rect x="751.6974" y="1470.4357" width="120" height="105" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_32">
+          <rect x="866.6974" y="1140.4357" width="5" height="330" fill="white"/>
+          <rect x="866.6974" y="1140.4357" width="5" height="330" stroke="#b9c0c1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Line_31">
+          <line x1="811.1974" y1="1251.5757" x2="811.1974" y2="1365.4357" marker-start="url(#UMLInheritance_Marker)" stroke="#00aeef" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="2"/>
+        </g>
+      </g>
+      <g id="Graphic_45">
+        <title>room 14x12</title>
+        <rect x="-40" y="633" width="787" height="942.4357" fill="white"/>
+        <rect x="-40" y="633" width="787" height="942.4357" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(-22 1094.7178)" fill="#515556">
+          <tspan font-family="Avenir" font-size="14" fill="#515556" x="352.155" y="14" xml:space="preserve">Garage</tspan>
+        </text>
+      </g>
+      <g id="Line_47">
+        <line x1="745" y1="628" x2="744" y2="524.01807" stroke="#7f8080" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_48">
+        <line x1="744" y1="524.01807" x2="1717" y2="521.751" stroke="#7f8080" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_50">
+        <text transform="translate(1024.144 698)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="8668621e-19" y="15" xml:space="preserve">Eating Area</tspan>
+        </text>
+      </g>
+      <g id="Graphic_51">
+        <text transform="translate(1500.432 1299)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="40500936e-20" y="15" xml:space="preserve">Front Entrance</tspan>
+        </text>
+      </g>
+      <g id="Group_67">
+        <title>stairs down</title>
+        <g id="Graphic_81">
+          <rect x="1718" y="1368" width="120" height="23.565236" fill="white"/>
+          <rect x="1718" y="1368" width="120" height="23.565236" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_80">
+          <rect x="1718" y="1391.5652" width="120" height="23.565236" fill="white"/>
+          <rect x="1718" y="1391.5652" width="120" height="23.565236" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_79">
+          <rect x="1718" y="1415.1305" width="120" height="23.565236" fill="white"/>
+          <rect x="1718" y="1415.1305" width="120" height="23.565236" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_78">
+          <rect x="1718" y="1438.6957" width="120" height="23.565236" fill="white"/>
+          <rect x="1718" y="1438.6957" width="120" height="23.565236" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_77">
+          <rect x="1718" y="1462.261" width="120" height="23.565236" fill="white"/>
+          <rect x="1718" y="1462.261" width="120" height="23.565236" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_76">
+          <rect x="1718" y="1485.8262" width="120" height="23.565236" fill="white"/>
+          <rect x="1718" y="1485.8262" width="120" height="23.565236" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_75">
+          <rect x="1718" y="1509.3914" width="120" height="23.565236" fill="white"/>
+          <rect x="1718" y="1509.3914" width="120" height="23.565236" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_74">
+          <rect x="1718" y="1532.9567" width="120" height="23.565236" fill="white"/>
+          <rect x="1718" y="1532.9567" width="120" height="23.565236" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_73">
+          <rect x="1718" y="1556.5219" width="120" height="23.565236" fill="white"/>
+          <rect x="1718" y="1556.5219" width="120" height="23.565236" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_72">
+          <rect x="1718" y="1580.0871" width="120" height="23.565236" fill="white"/>
+          <rect x="1718" y="1580.0871" width="120" height="23.565236" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_71">
+          <rect x="1718" y="1603.6524" width="120" height="23.565236" fill="white"/>
+          <rect x="1718" y="1603.6524" width="120" height="23.565236" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_70">
+          <rect x="1718" y="1627.2176" width="120" height="82.47833" fill="white"/>
+          <rect x="1718" y="1627.2176" width="120" height="82.47833" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Graphic_69">
+          <rect x="1833" y="1368" width="5" height="259.2176" fill="white"/>
+          <rect x="1833" y="1368" width="5" height="259.2176" stroke="#b9c0c1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </g>
+        <g id="Line_68">
+          <line x1="1777.5" y1="1457.6908" x2="1777.5" y2="1544.7393" marker-start="url(#UMLInheritance_Marker)" stroke="#00aeef" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="2"/>
+        </g>
+      </g>
+      <g id="Graphic_82">
+        <title>room 14x12</title>
+        <rect x="875.9265" y="1035.6188" width="125" height="103.98193" fill="white"/>
+        <rect x="875.9265" y="1035.6188" width="125" height="103.98193" stroke="#b9bfc1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(893.9265 1068.1097)" fill="#515556">
+          <tspan font-family="Avenir" font-size="14" fill="#515556" x="12.727" y="14" xml:space="preserve">OldPantry</tspan>
+          <tspan font-family="Avenir" font-size="14" fill="#515556" x="16.22" y="34" xml:space="preserve">46”x 29”</tspan>
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>
