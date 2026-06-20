@@ -91,10 +91,11 @@ PAN_S = DEN_S; PAN_N = PAN_S + 46 # pantry (SE corner = den SW corner)
 # bottom landing turns south with final 2 steps facing south; top of those 2 steps
 # is 130" from den north wall. landing extends 3' west; its west side is 8'4" east
 # of the kitchen east wall.
-# bedroom stairs north = living room south (20'3" measured from stairs north to LR north)
-STAIR_N = LIV_S                   # 527.25
-# entry wall 72" (den north to bedroom-stairs south); stairs south in line with kitchen south
+# bedroom stairs: south in line with kitchen south (entry 72" from den north);
+# double-wide 180-turn, each of the 2 sections is 3'3" (39") N-S => 78" total N-S
 STAIR_S = KIT_S                   # 495 (= den north + 72 = kitchen south)
+STAIR_N = STAIR_S + 78            # 573 (two 39" sections)
+# NOTE: 20'3" (stairs-north to LR north) ~ within tolerance of this footprint
 # landing is WEST of the bedroom stairs: 38" E-W, 72" N-S (north = stairs north,
 # down to south side of bottom step). West side 8'4" east of kitchen east wall.
 LANDING_W = KIT_E + 100           # 478.5 landing west side
