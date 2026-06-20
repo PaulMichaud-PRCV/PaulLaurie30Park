@@ -1,312 +1,199 @@
 #!/usr/bin/env python3
 """
-30 Park Ground Floor Plan v6 — matches OmniGraffle layout exactly.
+30 Park Ground Floor Plan v7 — detailed relationships from user.
 
-COMPASS:  Front door = EAST, Backyard = WEST, Living Room = NORTH, Garage = SOUTH
-DXF AXES: X increases NORTH, Y increases WEST
-Origin:   (0,0) = South-East exterior corner
+COMPASS: Front door = EAST, Backyard = WEST, Living Room = NORTH, Garage = SOUTH
+AXES:    Y increases EAST (front), X increases NORTH (living room)
+Origin:  (0,0) = South-West exterior corner
+
+KEY RELATIONSHIPS (from user):
+- 31'7" = from dining room EAST wall to living room EAST wall
+- 11'8"(N-S) x 11'6"(E-W) SPACE between dining and living, directly east of dining
+- Kitchen N wall in line with sunroom/dining divider
+- Kitchen directly east of sunroom
+- Powder room east wall in line with kitchen east wall
+- Powder room south of kitchen, directly east of eating area
+- Powder room N wall in line with north (open) end of eating area
+- 36" hall between powder room east wall and den west wall
+- Pantry SE corner = den SW corner
+- Hall between pantry west side and closet east side
 """
 import ezdxf, math
 from ezdxf.enums import TextEntityAlignment
 
-E = 6.0     # exterior wall
-I = 5.25    # interior wall
+E = 6.0
+I = 5.25
 
-# ── room dimensions (inches) ──────────────────────────────────────────────
-SUNROOM_NS   = 130    # 10'10" north-south
-DINING_NS    = 140    # 11'8"
-BACK_EW      = 222    # 18'6" east-west depth of sunroom & dining room
-DEN_NS       = 144    # 12'
-DEN_EW       = 144    # 12'
-POWDER       = 61     # 61" × 61"
-CLOSET_W     = 72     # bifold closet 72" × 24"
-CLOSET_D     = 24
-PANTRY_W     = 46     # old pantry 46" × 29"
-PANTRY_D     = 29
-LR_NS        = 243    # 20'3" (17'0" + 3'3" stairs)
-LR_EW        = 235    # 19'7"
+# ── room dims (inches) ──
+SUN_NS, SUN_EW   = 130, 222   # 10'10" x 18'6"
+DIN_NS, DIN_EW   = 140, 222   # 11'8"  x 18'6"
+SPACE_NS, SPACE_EW = 140, 138 # 11'8" x 11'6"
+LIV_NS, LIV_EW   = 243, 235   # 20'3" x 19'7"
+DEN_NS, DEN_EW   = 144, 144   # 12' x 12'
+POW             = 61          # 61x61
+CLO_NS, CLO_EW   = 72, 24
+PAN_NS, PAN_EW   = 46, 29
+HALL            = 36
+BSMT_NS         = 54
 
-# ── Y axis (East-West, Y increases = West/backyard) ──────────────────────
-HOUSE_EW = 374        # 31'2" total exterior depth
-Y_EAST_INT = E                           # 6
-Y_WEST_INT = HOUSE_EW - E               # 368
+# ── Y axis (East-West): 0=west/back ──
+WEST_INT = E                          # 6
+DIN_W = WEST_INT                      # dining/sunroom west wall
+DIN_E = DIN_W + DIN_EW                # 228  (dining east wall)
+SPACE_W = DIN_E + I                   # 233.25
+SPACE_E = SPACE_W + SPACE_EW          # 371.25
+LIV_W = SPACE_E + I                   # 376.5
+LIV_E = LIV_W + LIV_EW                # 611.5  (living east wall = front)
+EAST_INT = LIV_E
+HOUSE_EW = EAST_INT + E               # 617.5
 
-# back rooms (sunroom + dining room) at the WEST end
-BACK_Y_EAST = Y_WEST_INT - BACK_EW      # 146  (east face of back rooms)
-BACK_WALL_Y = BACK_Y_EAST - I           # 140.75 (east face of wall between back rooms & kitchen)
+# kitchen east wall = powder east wall ; align kitchen E-W with the space
+KIT_W = SPACE_W                       # 233.25 (east of sunroom)
+KIT_E = SPACE_E                       # 371.25
+POW_E = KIT_E                         # powder east = kitchen east
+POW_W = POW_E - POW                   # 310.25
+CLO_W = POW_W                         # closet west = powder west
+EAT_E = POW_W                         # eating east = powder/closet west wall
+EAT_W = KIT_W                         # eating west (east of sunroom)
+# den east wall = living east wall - 48" (4' west of living east)
+DEN_E = LIV_E - 48                    # 563.5
+DEN_W = DEN_E - DEN_EW                # 419.5
 
-# kitchen east-west: from the back-rooms wall eastward
-KIT_EW = 101  # ~8'5" deep (estimate — to be verified)
-KIT_Y_EAST = BACK_WALL_Y - KIT_EW       # ≈ 40
+# ── X axis (North-South): 0=south/garage ──
+SUN_S = 200.0
+SUN_N = SUN_S + SUN_NS                # 330
+DIV_S = SUN_N                         # divider between sunroom & dining
+DIV_N = DIV_S + I                     # 335.25
+DIN_S = DIV_N                         # 335.25
+DIN_N = DIN_S + DIN_NS               # 475.25
+NORTH_INT = DIN_N                     # 475.25
+HOUSE_NS = NORTH_INT + E              # 481.25
 
-# living room at the EAST end: Y=6 to Y=241
-LR_Y_WEST = Y_EAST_INT + LR_EW          # 241
+KIT_S = SUN_S                         # kitchen S = sunroom S (directly east of sunroom)
+KIT_N = SUN_N                         # kitchen N = divider line
+POW_N = KIT_S                         # powder N = kitchen S = eating north
+POW_S = POW_N - POW                   # 139
+EAT_N = KIT_S                         # eating north (open to kitchen)
+EAT_S = KIT_S - 150                   # 50 (eating wider N-S than powder+closet)
+DEN_N = KIT_S                         # den N = kitchen S edge
+DEN_S = DEN_N - DEN_NS               # 56
+# closet NW corner = powder SW corner (closet directly south of powder)
+CLO_N = POW_S                         # 139
+CLO_S = CLO_N - CLO_NS               # 67
 
-# den at the EAST end: Y=6 to Y=150
-DEN_Y_WEST = Y_EAST_INT + DEN_EW        # 150
+# space east of dining: same N-S as dining
+SPACE_S = DIN_S
+SPACE_N = DIN_N
 
-# ── X axis (South-North, X increases = North/living room) ────────────────
-# from south to north: eating area | sunroom | divider | dining room
-# kitchen is at the same X as sunroom, but east of it (lower Y)
-# living room is at the same X as dining room, east of it
+# living room: N wall aligned with dining/space north
+LIV_N = DIN_N                         # 475.25
+LIV_S = LIV_N - LIV_NS               # 232.25
 
-EATING_X_S = E                           # 6
-DEN_X_S    = E                           # 6
-DEN_X_N    = DEN_X_S + DEN_NS            # 150
+# basement stairs south of den
+BSMT_S = E
+BSMT_N = DEN_S                        # up to den south
 
-# wall between den/eating and sunroom/kitchen zone
-DEN_TOP_WALL_N = DEN_X_N + I             # 155.25
+# pantry: SE corner = den SW corner = (DEN_S, DEN_W)
+PAN_S = DEN_S
+PAN_N = PAN_S + PAN_NS               # 102
+PAN_E = DEN_W                         # 419.5
+PAN_W = PAN_E - PAN_EW               # 390.5
 
-SUN_X_S    = DEN_TOP_WALL_N              # 155.25
-SUN_X_N    = SUN_X_S + SUNROOM_NS        # 285.25
+# closet east face (west=CLO_W already set = POW_W)
+CLO_E = CLO_W + CLO_EW               # 334.25
 
-DIVIDER_X_S = SUN_X_N                    # 285.25 (south face of sun/din divider)
-DIVIDER_X_N = DIVIDER_X_S + I            # 290.5
-
-DIN_X_S    = DIVIDER_X_N                 # 290.5
-DIN_X_N    = DIN_X_S + DINING_NS         # 430.5
-
-HOUSE_NS   = DIN_X_N + E                 # 436.5
-
-# living room: X = LR_S to DIN_X_N (same north wall as dining room)
-LR_X_N     = DIN_X_N                     # 430.5
-LR_X_S     = LR_X_N - LR_NS             # 187.5
-
-# kitchen: same X range as sunroom
-KIT_X_S    = SUN_X_S                     # 155.25
-KIT_X_N    = SUN_X_N                     # 285.25
-
-# eating area: south of sunroom in the WEST band
-EAT_X_S    = E                           # 6
-EAT_X_N    = DEN_X_N                     # 150 (no wall to kitchen per user)
-
-# ── helpers ───────────────────────────────────────────────────────────────
 def il(v):
     f,r = divmod(abs(v),12)
     return f"{int(f)}'-{int(round(r))}\"" if round(r) else f"{int(f)}'-0\""
 
 def generate():
-    doc = ezdxf.new("R2010")
-    msp = doc.modelspace()
+    doc = ezdxf.new("R2010"); msp = doc.modelspace()
     for n,c,w in [("EXT",7,50),("INT",7,35),("DOOR",30,18),("WIN",5,25),
                    ("FP",1,25),("STR",8,13),("FIX",6,13),("DIM",3,13),
                    ("RM",2,13),("DM",3,13),("GAR",9,35)]:
         doc.layers.add(n,color=c,lineweight=w)
     doc.dimstyles.new("D",dxfattribs={"dimtxt":4,"dimasz":3,"dimexe":2,
                                        "dimexo":2,"dimgap":1.5,"dimlfac":1/12})
-
-    def R(x,y,w,h,layer="INT"):
-        msp.add_lwpolyline([(x,y),(x+w,y),(x+w,y+h),(x,y+h)],close=True,
-                           dxfattribs={"layer":layer})
-    def T(x,y,s,h=6,layer="RM"):
-        msp.add_text(s,height=h,dxfattribs={"layer":layer}).set_placement(
-            (x,y),align=TextEntityAlignment.MIDDLE_CENTER)
-    def W(x1,y1,x2,y2):
-        msp.add_line((x1,y1),(x2,y2),dxfattribs={"layer":"WIN","lineweight":35})
-        dx,dy=x2-x1,y2-y1; ln=max(math.hypot(dx,dy),1)
-        nx,ny=-dy/ln*2,dx/ln*2
-        msp.add_line((x1+nx,y1+ny),(x2+nx,y2+ny),dxfattribs={"layer":"WIN"})
-        msp.add_line((x1-nx,y1-ny),(x2-nx,y2-ny),dxfattribs={"layer":"WIN"})
-    def DH(x1,x2,y,off=18):
-        d=msp.add_linear_dim(base=(x1,y-off),p1=(x1,y),p2=(x2,y),dimstyle="D",
-                             dxfattribs={"layer":"DIM"}); d.render()
-    def DV(y1,y2,x,off=18):
-        d=msp.add_linear_dim(base=(x-off,y1),p1=(x,y1),p2=(x,y2),angle=90,
+    FY = HOUSE_EW                      # flip so EAST (front, high Y) is at bottom
+    def fy(y): return FY - y
+    def R(x,y,w,h,L="INT"):
+        msp.add_lwpolyline([(x,fy(y)),(x+w,fy(y)),(x+w,fy(y+h)),(x,fy(y+h))],
+                           close=True,dxfattribs={"layer":L})
+    def T(x,y,s,h=6,L="RM"):
+        msp.add_text(s,height=h,dxfattribs={"layer":L}).set_placement(
+            (x,fy(y)),align=TextEntityAlignment.MIDDLE_CENTER)
+    def LN(x1,y1,x2,y2,L="RM"):
+        msp.add_line((x1,fy(y1)),(x2,fy(y2)),dxfattribs={"layer":L})
+    def DH(x1,x2,y,o=18):
+        d=msp.add_linear_dim(base=(x1,fy(y)-o),p1=(x1,fy(y)),p2=(x2,fy(y)),
                              dimstyle="D",dxfattribs={"layer":"DIM"}); d.render()
+    def DV(y1,y2,x,o=18):
+        d=msp.add_linear_dim(base=(x-o,fy(y1)),p1=(x,fy(y1)),p2=(x,fy(y2)),
+                             angle=90,dimstyle="D",dxfattribs={"layer":"DIM"}); d.render()
 
-    # ═══ EXTERIOR WALLS ═══
-    R(0, 0, HOUSE_NS, HOUSE_EW, "EXT")
-    R(E, E, HOUSE_NS-2*E, HOUSE_EW-2*E, "EXT")
+    # rooms as rectangles (note: X=horizontal/N-S, Y=vertical/E-W in DXF space,
+    # but we map X->dxf_x and Y->dxf_y so right=North, up=East... we want
+    # up=West actually. Let's draw with dxf_x=X (north right), dxf_y=Y (east up).)
+    # That puts East at top. We want front door visible; East at top is fine.
 
-    # ═══ BACK ROOMS E-W WALL (separates back rooms from kitchen/eating) ═══
-    # runs full N-S width at Y = BACK_Y_EAST
-    R(E, BACK_Y_EAST-I, HOUSE_NS-2*E, I, "INT")
+    # EXTERIOR
+    R(0,0,HOUSE_NS,HOUSE_EW,"EXT")
+    R(E,E,HOUSE_NS-2*E,HOUSE_EW-2*E,"EXT")
 
-    # ═══ SUNROOM / DINING ROOM DIVIDER (E-W wall between them) ═══
-    # runs from west wall to back rooms east wall
-    R(DIVIDER_X_S, BACK_Y_EAST, I, Y_WEST_INT-BACK_Y_EAST, "INT")
+    # rooms (x=N-S coord, y=E-W coord)
+    def room(xs,xn,yw,ye,name,dims,note,big=7):
+        R(xs,yw,xn-xs,ye-yw,"INT")
+        cx,cy=(xs+xn)/2,(yw+ye)/2
+        T(cx,cy+12,name,big);
+        if dims: T(cx,cy-2,dims,4.2,"DM")
+        if note: T(cx,cy-14,note,3.3,"DM")
 
-    # ═══ DEN / KITCHEN DIVIDER WALL (at den N edge, E-W) ═══
-    # runs from south wall to living room area
-    R(DEN_X_N, E, I, BACK_Y_EAST-E, "INT")
+    room(SUN_S,SUN_N,DIN_W,DIN_E,"SUNROOM",f"{il(SUN_NS)} x {il(SUN_EW)}","(Slate, Arched Win)")
+    room(DIN_S,DIN_N,DIN_W,DIN_E,"DINING ROOM",f"{il(DIN_NS)} x {il(DIN_EW)}","(Hardwood, Crown)")
+    room(SPACE_S,SPACE_N,SPACE_W,SPACE_E,"SPACE",f"{il(SPACE_NS)} x {il(SPACE_EW)}","(between din & liv)",5)
+    room(KIT_S,KIT_N,KIT_W,KIT_E,"KITCHEN","","(Tile)")
+    room(LIV_S,LIV_N,LIV_W,LIV_E,"LIVING ROOM",f"~{il(LIV_NS)} x {il(LIV_EW)}","(Carpet, Brick FP)",8)
+    room(DEN_S,DEN_N,DEN_W,DEN_E,"DEN",f"{il(DEN_NS)} x {il(DEN_EW)}","(Hardwood)")
+    R(EAT_S,EAT_W,EAT_N-EAT_S,EAT_E-EAT_W,"INT")
+    T((EAT_S+EAT_N)/2,(EAT_W+EAT_E)/2+8,"EATING",6); T((EAT_S+EAT_N)/2,(EAT_W+EAT_E)/2-6,"AREA",6)
 
-    # ═══ SUNROOM / KITCHEN N-S WALL (between back rooms and kitchen zone) ═══
-    # This wall is the east wall of the back rooms, already drawn above.
-    # But it also separates sunroom (west) from kitchen (east) at the sunroom X range.
-    # The back rooms wall at Y=BACK_Y_EAST serves this purpose.
+    # small rooms
+    R(POW_S,POW_W,POW,POW,"INT"); T((POW_S+POW_N)/2,(POW_W+POW_E)/2+3,"POWDER",3); T((POW_S+POW_N)/2,(POW_W+POW_E)/2-6,"61x61",2.5,"DM")
+    R(PAN_S,PAN_W,PAN_NS,PAN_EW,"INT"); T((PAN_S+PAN_N)/2,(PAN_W+PAN_E)/2+3,"PANTRY",2.7); T((PAN_S+PAN_N)/2,(PAN_W+PAN_E)/2-5,"46x29",2.3,"DM")
+    R(CLO_S,CLO_W,CLO_NS,CLO_EW,"INT"); T((CLO_S+CLO_N)/2,(CLO_W+CLO_E)/2,"CLOSET",2.7); T((CLO_S+CLO_N)/2,(CLO_W+CLO_E)/2-6,"72x24",2.3,"DM")
+    R(BSMT_S,DIN_W+20,BSMT_NS,96,"STR"); T(BSMT_S+BSMT_NS/2,DIN_W+20+48,"BSMT DN",3,"STR")
 
-    # ═══ LIVING ROOM SOUTH WALL ═══
-    # from den/kitchen zone to the east wall
-    R(LR_X_S, E, I, LR_Y_WEST-E, "INT")
+    # main stairs UP (in living room, south end)
+    R(LIV_S+10,LIV_W+15,39,108,"STR"); T(LIV_S+10+20,LIV_W+15+54,"UP",3.5,"STR")
 
-    # ═══ LIVING ROOM WEST WALL (partial, only where it differs from kitchen) ═══
-    # The living room extends from Y=6 to Y=241 (west). Above Y=241, the wall
-    # separates the living room from the kitchen/back rooms.
-    # The west wall of the living room runs from LR_X_S to LR_X_N at Y=LR_Y_WEST
-    # But this is only needed where it differs from other walls.
-    # Since the living room west wall is at Y=241 and the back rooms east wall is at Y=146,
-    # there's an offset. The kitchen fills this gap.
+    # fireplaces
+    R(LIV_S+80,LIV_W+10,72,22,"FP"); T(LIV_S+80+36,LIV_W+21,"BRICK FP",3,"FP")
 
-    # Wall between living room (east) and kitchen (west) at the north portion:
-    # This is the living room west wall from X=KIT_X_N to X=LR_X_N at Y=LR_Y_WEST
-    # But wait, the living room wraps around — its S wall is at X=LR_X_S=187.5,
-    # which is NORTH of the kitchen S edge (KIT_X_S=155.25).
-    # So the living room overlaps with the kitchen in X from 187.5 to 285.25.
-    # The wall between them at Y=LR_Y_WEST separates living room (east, Y<241) from kitchen (west, Y>241).
+    # GARAGE (south of house). East wall in line with living room east outer wall.
+    GD = 240                          # garage depth N-S (estimate)
+    gar_e = HOUSE_EW                  # garage east = living room east outer wall
+    gar_w = gar_e - 264              # ~22' wide E-W (estimate)
+    R(-GD-E, gar_w, GD, gar_e-gar_w, "GAR")
+    R(-GD-2*E, gar_w-E, GD+2*E, gar_e-gar_w+2*E, "GAR")
+    T(-GD/2, (gar_w+gar_e)/2, "GARAGE (dims TBD)", 7, "GAR")
 
-    # Draw living room west wall (from LR_X_S to KIT_X_N at Y=LR_Y_WEST)
-    R(LR_X_S, LR_Y_WEST, KIT_X_N-LR_X_S+I, I, "INT")
+    # dimensions
+    DH(0,HOUSE_NS,0,o=40); DV(0,HOUSE_EW,HOUSE_NS,o=40)
+    DV(DIN_E,LIV_E,DIN_N+15,o=-30)  # 31'7" dining-east to living-east
 
-    # ═══ ROOM LABELS ═══
-    # Sunroom
-    sx,sy = (SUN_X_S+SUN_X_N)/2, (BACK_Y_EAST+Y_WEST_INT)/2
-    T(sx,sy+15,"SUNROOM",7); T(sx,sy,f"{il(SUNROOM_NS)} x {il(BACK_EW)}",4.5,"DM")
-    T(sx,sy-15,"(Slate, Arched Windows)",3.5,"DM")
+    # compass (N points right = +X)
+    cx,cy=HOUSE_NS+50,HOUSE_EW/2
+    LN(cx,cy,cx+30,cy); LN(cx+30,cy,cx+22,cy+5); LN(cx+30,cy,cx+22,cy-5)
+    T(cx+40,cy,"N",8)
+    # after flip: EAST (front) is at bottom, WEST (back) at top
+    T(HOUSE_NS/2,HOUSE_EW+15,"EAST (Front Door / Street)",5,"DM")
+    T(HOUSE_NS/2,-15,"WEST (Backyard)",5,"DM")
+    T(-25,HOUSE_EW/2,"SOUTH (Garage)",4,"DM")
+    T(HOUSE_NS+30,HOUSE_EW/2+40,"NORTH (Living Rm)",4,"DM")
+    T(HOUSE_NS/2,-45,"30 PARK — GROUND FLOOR (v7)",10)
 
-    # Dining Room
-    dx,dy_ = (DIN_X_S+DIN_X_N)/2, (BACK_Y_EAST+Y_WEST_INT)/2
-    T(dx,dy_+15,"DINING ROOM",7); T(dx,dy_,f"{il(DINING_NS)} x {il(BACK_EW)}",4.5,"DM")
-    T(dx,dy_-15,"(Hardwood, Crown Molding)",3.5,"DM")
+    out="/home/paul/Data/workspace/PaulLaurie30Park/docs/current/30park-ground-floor-plan.dxf"
+    doc.saveas(out); print("DXF saved")
 
-    # Kitchen
-    kx,ky = (KIT_X_S+KIT_X_N)/2, (KIT_Y_EAST+BACK_WALL_Y)/2
-    T(kx,ky+10,"KITCHEN",7); T(kx,ky-8,"(Tile Floor)",3.5,"DM")
-
-    # Eating Area
-    ex,ey = (EAT_X_S+EAT_X_N)/2, (BACK_Y_EAST+Y_WEST_INT)/2
-    T(ex,ey+15,"EATING",7); T(ex,ey,"AREA",7)
-    T(ex,ey-18,"(Tile, Coffered Ceiling)",3.5,"DM")
-
-    # Living Room
-    lx,ly = (LR_X_S+LR_X_N)/2, (Y_EAST_INT+LR_Y_WEST)/2
-    T(lx,ly+25,"LIVING ROOM",8)
-    T(lx,ly+8,f"~{il(LR_NS)} x {il(LR_EW)}",4.5,"DM")
-    T(lx,ly-8,"(Carpet, Crown Molding)",3.5,"DM")
-
-    # Den
-    dnx,dny = (DEN_X_S+DEN_X_N)/2, (Y_EAST_INT+DEN_Y_WEST)/2
-    T(dnx,dny+15,"DEN",7); T(dnx,dny,f"{il(DEN_NS)} x {il(DEN_EW)}",4.5,"DM")
-    T(dnx,dny-15,"(Hardwood)",3.5,"DM")
-
-    # Front Entrance (between den and living room at the east/front side)
-    T((DEN_X_N+LR_X_S)/2, (Y_EAST_INT+KIT_Y_EAST)/2+10, "FRONT",5)
-    T((DEN_X_N+LR_X_S)/2, (Y_EAST_INT+KIT_Y_EAST)/2-5, "ENTRANCE",5)
-
-    # ═══ SMALL ROOMS (closet, powder room, old pantry, basement stairs) ═══
-    # These are in the south portion of the house, between the eating area and den
-
-    # Closet (72"×24") — in the transition zone between eating area and den
-    cl_x = EAT_X_S + 30
-    cl_y = BACK_Y_EAST - CLOSET_D - 10
-    R(cl_x, cl_y, CLOSET_W, CLOSET_D, "INT")
-    T(cl_x+CLOSET_W/2, cl_y+CLOSET_D/2, "CLOSET 72\"x24\"", 3, "RM")
-
-    # Powder Room (61"×61") — east of closet
-    pr_x = cl_x + CLOSET_W + I
-    pr_y = BACK_Y_EAST - POWDER - 10
-    R(pr_x, pr_y, POWDER, POWDER, "INT")
-    T(pr_x+POWDER/2, pr_y+POWDER/2+5, "POWDER RM", 3, "RM")
-    T(pr_x+POWDER/2, pr_y+POWDER/2-8, "61\"x61\"", 2.5, "DM")
-
-    # Old Pantry (46"×29") — below the closet
-    op_x = cl_x
-    op_y = cl_y - PANTRY_D - I - 5
-    R(op_x, op_y, PANTRY_W, PANTRY_D, "INT")
-    T(op_x+PANTRY_W/2, op_y+PANTRY_D/2+4, "OLD PANTRY", 3, "RM")
-    T(op_x+PANTRY_W/2, op_y+PANTRY_D/2-6, "46\"x29\"", 2.5, "DM")
-
-    # Basement Stairs (4'6" wide, going down) — south side, near garage
-    bs_x = E + 10
-    bs_y = E + 10
-    bs_w = 54; bs_h = 96
-    R(bs_x, bs_y, bs_w, bs_h, "STR")
-    T(bs_x+bs_w/2, bs_y+bs_h/2+5, "BSMT", 3.5, "STR")
-    T(bs_x+bs_w/2, bs_y+bs_h/2-5, "STAIRS DN", 3.5, "STR")
-
-    # ═══ MAIN STAIRCASE (UP) — in the living room ═══
-    st_x = LR_X_S + 10
-    st_y = Y_EAST_INT + 20
-    st_w = 39; st_h = 108
-    R(st_x, st_y, st_w, st_h, "STR")
-    T(st_x+st_w/2, st_y+st_h/2+5, "STAIRS", 3.5, "STR")
-    T(st_x+st_w/2, st_y+st_h/2-5, "UP", 3.5, "STR")
-
-    # ═══ FIREPLACES ═══
-    # Brick fireplace in the living room (near the south wall of living room)
-    fp_w,fp_h = 72,22
-    fp_x = LR_X_S + 20
-    fp_y = Y_EAST_INT + 20
-    R(fp_x+st_w+20, fp_y, fp_w, fp_h, "FP")
-    T(fp_x+st_w+20+fp_w/2, fp_y+fp_h/2, "BRICK FP", 3.5, "FP")
-
-    # Herringbone FP in dining/eating area
-    fp2_w,fp2_h = 60,20
-    fp2_x = (EAT_X_N + SUN_X_S)/2 - fp2_w/2
-    fp2_y = BACK_Y_EAST - fp2_h - 30
-    R(fp2_x, fp2_y, fp2_w, fp2_h, "FP")
-    T(fp2_x+fp2_w/2, fp2_y+fp2_h/2, "HERRINGBONE FP", 3, "FP")
-
-    # ═══ WINDOWS ═══
-    # Sunroom — west wall (backyard)
-    W(SUN_X_S+15, Y_WEST_INT, SUN_X_N-15, Y_WEST_INT)
-    # Dining room — west wall
-    W(DIN_X_S+15, Y_WEST_INT, DIN_X_N-15, Y_WEST_INT)
-    # Living room — north wall
-    W(LR_X_N, LR_Y_WEST-40, LR_X_N, Y_EAST_INT+40)
-    # Living room — east wall (front, street side)
-    W(LR_X_S+30, Y_EAST_INT, LR_X_N-30, Y_EAST_INT)
-    # Den — east wall
-    W(DEN_X_S+20, Y_EAST_INT, DEN_X_N-20, Y_EAST_INT)
-
-    # ═══ FRONT DOOR ═══
-    fd_x = (DEN_X_N + LR_X_S)/2
-    msp.add_line((fd_x-18, Y_EAST_INT), (fd_x+18, Y_EAST_INT),
-                 dxfattribs={"layer":"DOOR"})
-
-    # ═══ GARAGE ═══
-    gar_w, gar_h = 240, 264
-    R(-gar_w-E, E, gar_w, gar_h, "GAR")
-    R(-gar_w-2*E, 0, gar_w+2*E, gar_h+2*E, "GAR")
-    T(-gar_w/2-E, E+gar_h/2+10, "GARAGE", 8, "GAR")
-    T(-gar_w/2-E, E+gar_h/2-10, "(dims TBD)", 4, "GAR")
-    # Connect garage to main house
-    msp.add_line((-E, 0), (0, 0), dxfattribs={"layer":"EXT"})
-    msp.add_line((-E, gar_h+2*E), (0, gar_h+2*E), dxfattribs={"layer":"EXT"})
-
-    # ═══ DIMENSIONS ═══
-    DH(0, HOUSE_NS, 0, off=42)              # total N-S
-    DV(0, HOUSE_EW, HOUSE_NS, off=42)       # total E-W
-    DH(SUN_X_S, SUN_X_N, Y_WEST_INT, off=12) # sunroom width
-    DV(BACK_Y_EAST, Y_WEST_INT, E, off=-15)   # sunroom depth
-    DH(DIN_X_S, DIN_X_N, Y_WEST_INT, off=12)  # dining width
-    DH(DEN_X_S, DEN_X_N, Y_EAST_INT, off=-12) # den width
-    DV(Y_EAST_INT, DEN_Y_WEST, DEN_X_N, off=12) # den depth
-    DH(LR_X_S, LR_X_N, Y_EAST_INT, off=-24)   # living room width
-    DV(Y_EAST_INT, LR_Y_WEST, LR_X_N, off=24)  # living room depth
-
-    # ═══ COMPASS + LABELS ═══
-    cx = HOUSE_NS + 50
-    cy = HOUSE_EW / 2
-    # North arrow (points RIGHT = increasing X = NORTH)
-    msp.add_line((cx,cy),(cx+30,cy),dxfattribs={"layer":"RM"})
-    msp.add_line((cx+30,cy),(cx+22,cy-5),dxfattribs={"layer":"RM"})
-    msp.add_line((cx+30,cy),(cx+22,cy+5),dxfattribs={"layer":"RM"})
-    T(cx+38, cy, "N", 8)
-
-    T(HOUSE_NS/2, HOUSE_EW+15, "WEST (Backyard)", 5, "DM")
-    T(HOUSE_NS/2, -15, "EAST (Front Door / Street)", 5, "DM")
-    T(-25, HOUSE_EW/2, "SOUTH", 5, "DM")
-    T(-25, HOUSE_EW/2-12, "(Garage)", 3.5, "DM")
-    T(HOUSE_NS+25, HOUSE_EW/2, "NORTH", 5, "DM")
-    T(HOUSE_NS+25, HOUSE_EW/2-12, "(Living Rm)", 3.5, "DM")
-
-    # Title
-    T(HOUSE_NS/2, -40, "30 PARK — GROUND FLOOR PLAN (v6)", 10)
-    T(HOUSE_NS/2, -55, "Front door faces EAST | Ceiling 8'-0\" | Int walls 5-1/4\"", 4, "DM")
-
-    out = "/home/paul/Data/workspace/PaulLaurie30Park/docs/current/30park-ground-floor-plan.dxf"
-    doc.saveas(out)
-    print(f"DXF: {out}")
-
-if __name__ == "__main__":
+if __name__=="__main__":
     generate()
