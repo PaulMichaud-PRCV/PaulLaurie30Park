@@ -53,29 +53,37 @@ STAIR_E_Y = LIV_E                 # stairs east = living east
 
 # ── N-S (X) coordinates : anchor so garage south = 0 ──
 GARAGE_D = 240                    # garage depth N-S (estimate)
-DEN_S = GARAGE_D                  # 240 den south = garage north = central south
-SUN_S = DEN_S + 274              # 514  (den 144 + entry 130 north of den south)
-SUN_N = SUN_S + 130               # 644 sunroom north
+# Chain: garage_N = eating_S ; eating 183 N-S ; eating_N = kitchen_S = den_N ;
+#        den 144 N-S ; entry 130 from den_N to main-stairs-south = SUN_S
+# => SUN_S = garage_D + (eating_S->garage gap 0) ... solve below
+GARAGE_N = GARAGE_D               # 240 (garage south = 0)
+EAT_S = GARAGE_N                  # eating south = garage north (where they overlap)
+EAT_N = EAT_S + 183               # 423 eating north (15'3")  = kitchen south = den north
+KIT_S = EAT_N                     # 423 kitchen south = den north (open to eating)
+DEN_N = EAT_N                     # 423 den north
+DEN_S = DEN_N - 144               # 279 den south
+SUN_S = DEN_N + 130               # 553 (entry 130" from den north to main stairs south)
+SUN_N = SUN_S + 130               # 683 sunroom north
+KIT_N = SUN_N                     # 683 kitchen north = sun/dining divider line
 DIV_S = SUN_N; DIV_N = DIV_S + I  # sun/dining divider
-DIN_S = DIV_N                     # 649.25
-DIN_N = DIN_S + 140               # 789.25 dining north = house north wall
+DIN_S = DIV_N                     # 688.25
+DIN_N = DIN_S + 140               # 828.25 dining north = house north wall
 NORTH_OUT = DIN_N + E
 
-KIT_S = SUN_S; KIT_N = SUN_N      # kitchen N-S = sunroom N-S (east of sunroom)
 SPACE_S = DIN_S; SPACE_N = DIN_N  # piano N-S = dining N-S (east of dining)
 LIV_N = DIN_N                     # living north = north wall
-LIV_S = LIV_N - 243               # 546.25 (20'3" N-S)
-DEN_N = SUN_S - 130               # 384 (entry 130" from den north to stairs south=SUN_S)
-ENTRY_S = DEN_N                   # 384
-ENTRY_N = SUN_S                   # 514 (stairs south)
-EAT_N = SUN_S                     # eating north = kitchen south
-EAT_S = EAT_N - 183               # 331 (15'3" N-S)
-POW_N = SUN_S; POW_S = POW_N - 61 # powder
+LIV_S = LIV_N - 243               # 585.25 (20'3" N-S)
+ENTRY_S = DEN_N                   # 423
+ENTRY_N = SUN_S                   # 553 (main stairs south)
+POW_N = KIT_S; POW_S = POW_N - 61 # powder (north = kitchen south)
 CLO_N = POW_S; CLO_S = CLO_N - 72 # closet (NW corner = powder SW corner)
 PAN_S = DEN_S; PAN_N = PAN_S + 46 # pantry (SE corner = den SW corner)
 
-# stairs (double-wide, south edge = SUN_S)
+# main stairs (double-wide 180-turn, on living room east wall, south edge = SUN_S)
 STAIR_S = SUN_S; STAIR_N = SUN_S + 96
+# stairs UP between den (north) and garage (south); landing east wall = den east
+UPSTAIR_N = DEN_S                 # 279 (south of den)
+UPSTAIR_S = GARAGE_N              # 240 (north of garage)
 
 def il(v):
     f,r = divmod(abs(v),12)
@@ -148,8 +156,9 @@ def generate():
     T((ENTRY_S+ENTRY_N)/2,(FRONTDOOR_Y+DEN_E)/2,"ENTRY",4)
     LN(ENTRY_S,FRONTDOOR_Y,ENTRY_N,FRONTDOOR_Y,"DOOR")   # front-door wall line
 
-    # basement stairs (in central/eating area zone, near west)
-    R(DEN_S+10, EAT_W+10, 54, 96, "STR"); T(DEN_S+10+27, EAT_W+10+48, "BSMT DN", 3, "STR")
+    # stairs UP between den (north) and garage (south); landing east wall = den east
+    R(UPSTAIR_S, DEN_E-90, UPSTAIR_N-UPSTAIR_S, 90, "STR")
+    T((UPSTAIR_S+UPSTAIR_N)/2, DEN_E-45, "STAIRS UP", 2.6, "STR")
 
     # main stairs UP — double-wide on living room EAST wall, 180-deg turn
     R(STAIR_S, STAIR_W_Y, STAIR_N-STAIR_S, STAIR_E_Y-STAIR_W_Y, "STR")
