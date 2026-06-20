@@ -47,6 +47,8 @@ DEN_E = LIV_E - 48                # 563.5 (4' west of living east)
 DEN_W = DEN_E - 144               # 419.5
 PAN_E = DEN_W                     # pantry east = den west
 PAN_W = PAN_E - 29                # 390.5
+OPEN_W = EAT_W                    # open space west = eating area west wall
+OPEN_E = KIT_E                    # open space east = kitchen/powder east wall
 FRONTDOOR_Y = DEN_E - 48          # 515.5 (front door 4' west of den east)
 STAIR_W_Y = FRONTDOOR_Y           # stairs west edge = front-door wall line
 STAIR_E_Y = LIV_E                 # stairs east = living east
@@ -58,8 +60,11 @@ GARAGE_D = 240                    # garage depth N-S (estimate)
 # => SUN_S = garage_D + (eating_S->garage gap 0) ... solve below
 GARAGE_N = GARAGE_D               # 240 (garage south = 0)
 EAT_S = GARAGE_N                  # eating south = garage north (where they overlap)
-EAT_N = EAT_S + 183               # 423 eating north (15'3")  = kitchen south = den north
-KIT_S = EAT_N                     # 423 kitchen south = den north (open to eating)
+EAT_N = EAT_S + 183               # 423 eating north (15'3")
+# 72" open space extends kitchen south; sits between eating/den-north line and kitchen
+OPEN_S = EAT_N                    # 423 (south edge of open space = eating/den/powder north)
+OPEN_N = OPEN_S + 72              # 495 (north edge = kitchen south)
+KIT_S = OPEN_N                    # 495 kitchen south
 DEN_N = EAT_N                     # 423 den north
 DEN_S = DEN_N - 144               # 279 den south
 SUN_S = DEN_N + 130               # 553 (entry 130" from den north to main stairs south)
@@ -128,6 +133,11 @@ def generate():
     room(SUN_S,SUN_N,DIN_W,DIN_E,"SUNROOM","10'-10\" x 18'-6\"","(Slate, Arched Win)")
     room(DIN_S,DIN_N,DIN_W,DIN_E,"DINING ROOM","11'-8\" x 18'-6\"","(Hardwood, Crown)")
     room(KIT_S,KIT_N,KIT_W,KIT_E,"KITCHEN","","(Tile)")
+    # open space extending kitchen on the south side (no full walls; open to kitchen)
+    LN(OPEN_S,OPEN_W,OPEN_S,OPEN_E)        # south edge
+    LN(OPEN_S,OPEN_W,OPEN_N,OPEN_W)        # west edge
+    LN(OPEN_S,OPEN_E,OPEN_N,OPEN_E)        # east edge
+    T((OPEN_S+OPEN_N)/2,(OPEN_W+OPEN_E)/2,"(open to kitchen)",3,"DM")
     room(DEN_S,DEN_N,DEN_W,DEN_E,"DEN","12'-0\" x 12'-0\"","(Hardwood)")
     room(EAT_S,EAT_N,EAT_W,EAT_E,"EATING AREA","10'-6\" x 15'-3\"","(Tile)")
 
