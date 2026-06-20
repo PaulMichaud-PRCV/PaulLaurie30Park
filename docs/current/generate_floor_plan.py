@@ -53,8 +53,10 @@ KIT_E = SPACE_E                       # 371.25
 POW_E = KIT_E                         # powder east = kitchen east
 POW_W = POW_E - POW                   # 310.25
 CLO_W = POW_W                         # closet west = powder west
-EAT_E = POW_W                         # eating east = powder/closet west wall
-EAT_W = KIT_W                         # eating west (east of sunroom)
+# eating area: 10'6" E-W, west wall 50" west of sunroom/kitchen divider (KIT_W)
+EAT_EW = 126                          # 10'6"
+EAT_W = KIT_W - 50                    # 183.25
+EAT_E = EAT_W + EAT_EW                # 309.25
 # den east wall = living east wall - 48" (4' west of living east)
 DEN_E = LIV_E - 48                    # 563.5
 DEN_W = DEN_E - DEN_EW                # 419.5
@@ -73,8 +75,9 @@ KIT_S = SUN_S                         # kitchen S = sunroom S (directly east of 
 KIT_N = SUN_N                         # kitchen N = divider line
 POW_N = KIT_S                         # powder N = kitchen S = eating north
 POW_S = POW_N - POW                   # 139
+EAT_NS = 183                          # 15'3" N-S
 EAT_N = KIT_S                         # eating north (open to kitchen)
-EAT_S = KIT_S - 150                   # 50 (eating wider N-S than powder+closet)
+EAT_S = EAT_N - EAT_NS               # 17
 DEN_N = KIT_S                         # den N = kitchen S edge
 DEN_S = DEN_N - DEN_NS               # 56
 # closet NW corner = powder SW corner (closet directly south of powder)
@@ -150,10 +153,24 @@ def generate():
 
     room(SUN_S,SUN_N,DIN_W,DIN_E,"SUNROOM",f"{il(SUN_NS)} x {il(SUN_EW)}","(Slate, Arched Win)")
     room(DIN_S,DIN_N,DIN_W,DIN_E,"DINING ROOM",f"{il(DIN_NS)} x {il(DIN_EW)}","(Hardwood, Crown)")
-    room(SPACE_S,SPACE_N,SPACE_W,SPACE_E,"SPACE",f"{il(SPACE_NS)} x {il(SPACE_EW)}","(between din & liv)",5)
     room(KIT_S,KIT_N,KIT_W,KIT_E,"KITCHEN","","(Tile)")
-    room(LIV_S,LIV_N,LIV_W,LIV_E,"LIVING ROOM",f"~{il(LIV_NS)} x {il(LIV_EW)}","(Carpet, Brick FP)",8)
     room(DEN_S,DEN_N,DEN_W,DEN_E,"DEN",f"{il(DEN_NS)} x {il(DEN_EW)}","(Hardwood)")
+
+    # PIANO ROOM (open on east side to the living room — no wall there)
+    LN(SPACE_S,SPACE_W,SPACE_N,SPACE_W,"INT")   # west wall
+    LN(SPACE_S,SPACE_W,SPACE_S,SPACE_E,"INT")   # south wall
+    LN(SPACE_N,SPACE_W,SPACE_N,SPACE_E,"INT")   # north wall
+    pcx,pcy=(SPACE_S+SPACE_N)/2,(SPACE_W+SPACE_E)/2
+    T(pcx,pcy+10,"PIANO ROOM",6); T(pcx,pcy-4,f"{il(SPACE_NS)} x {il(SPACE_EW)}",4,"DM")
+
+    # LIVING ROOM (west wall only south of the piano room; open to piano room)
+    LN(LIV_S,LIV_E,LIV_N,LIV_E,"INT")           # east wall (front)
+    LN(LIV_S,LIV_W,LIV_S,LIV_E,"INT")           # south wall
+    LN(LIV_N,LIV_W,LIV_N,LIV_E,"INT")           # north wall
+    LN(LIV_S,LIV_W,SPACE_S,LIV_W,"INT")         # west wall (south of piano room only)
+    lcx,lcy=(LIV_S+LIV_N)/2,(LIV_W+LIV_E)/2
+    T(lcx,lcy+14,"LIVING ROOM",8); T(lcx,lcy,f"~{il(LIV_NS)} x {il(LIV_EW)}",4.2,"DM")
+    T(lcx,lcy-12,"(Carpet, Brick FP)",3.3,"DM")
     R(EAT_S,EAT_W,EAT_N-EAT_S,EAT_E-EAT_W,"INT")
     T((EAT_S+EAT_N)/2,(EAT_W+EAT_E)/2+8,"EATING",6); T((EAT_S+EAT_N)/2,(EAT_W+EAT_E)/2-6,"AREA",6)
 
@@ -163,11 +180,12 @@ def generate():
     R(CLO_S,CLO_W,CLO_NS,CLO_EW,"INT"); T((CLO_S+CLO_N)/2,(CLO_W+CLO_E)/2,"CLOSET",2.7); T((CLO_S+CLO_N)/2,(CLO_W+CLO_E)/2-6,"72x24",2.3,"DM")
     R(BSMT_S,DIN_W+20,BSMT_NS,96,"STR"); T(BSMT_S+BSMT_NS/2,DIN_W+20+48,"BSMT DN",3,"STR")
 
-    # main stairs UP (in living room, south end)
-    R(LIV_S+10,LIV_W+15,39,108,"STR"); T(LIV_S+10+20,LIV_W+15+54,"UP",3.5,"STR")
+    # main stairs UP — on the EAST wall of the living room, south end
+    # 17'0" from windows to stairs, stairs 3'3" wide (N-S), run westward from east wall
+    R(LIV_S+8, LIV_E-108, 39, 108, "STR"); T(LIV_S+8+20, LIV_E-54, "UP", 3.5, "STR")
 
-    # fireplaces
-    R(LIV_S+80,LIV_W+10,72,22,"FP"); T(LIV_S+80+36,LIV_W+21,"BRICK FP",3,"FP")
+    # fireplace — on the EAST wall of the living room
+    R(lcx-36, LIV_E-22, 72, 22, "FP"); T(lcx, LIV_E-11, "BRICK FP", 3, "FP")
 
     # GARAGE (south of house). East wall in line with living room east outer wall.
     GD = 240                          # garage depth N-S (estimate)
