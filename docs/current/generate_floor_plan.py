@@ -67,8 +67,10 @@ OPEN_N = OPEN_S + 72              # 495 (north edge = kitchen south)
 KIT_S = OPEN_N                    # 495 kitchen south
 DEN_N = EAT_N                     # 423 den north
 DEN_S = DEN_N - 144               # 279 den south
-SUN_S = DEN_N + 130               # 553 (entry 130" from den north to main stairs south)
-SUN_N = SUN_S + 130               # 683 sunroom north
+# kitchen is directly east of the sunroom -> kitchen south = sunroom south
+# entryway = open-space band = 72" (den north to bedroom-stairs south = sunroom south)
+SUN_S = KIT_S                     # 495 sunroom south = kitchen south
+SUN_N = SUN_S + 130               # 625 sunroom north
 KIT_N = SUN_N                     # 683 kitchen north = sun/dining divider line
 DIV_S = SUN_N; DIV_N = DIV_S + I  # sun/dining divider
 DIN_S = DIV_N                     # 688.25
@@ -166,14 +168,14 @@ def generate():
     T((ENTRY_S+ENTRY_N)/2,(FRONTDOOR_Y+DEN_E)/2,"ENTRY",4)
     LN(ENTRY_S,FRONTDOOR_Y,ENTRY_N,FRONTDOOR_Y,"DOOR")   # front-door wall line
 
-    # stairs UP between den (north) and garage (south); landing east wall = den east
+    # LOFT STAIRS between den (north) and garage (south); landing east wall = den east
     R(UPSTAIR_S, DEN_E-90, UPSTAIR_N-UPSTAIR_S, 90, "STR")
-    T((UPSTAIR_S+UPSTAIR_N)/2, DEN_E-45, "STAIRS UP", 2.6, "STR")
+    T((UPSTAIR_S+UPSTAIR_N)/2, DEN_E-45, "LOFT STAIRS", 2.6, "STR")
 
     # main stairs UP — double-wide on living room EAST wall, 180-deg turn
     R(STAIR_S, STAIR_W_Y, STAIR_N-STAIR_S, STAIR_E_Y-STAIR_W_Y, "STR")
     LN((STAIR_S+STAIR_N)/2, STAIR_W_Y, (STAIR_S+STAIR_N)/2, STAIR_E_Y, "STR")  # center wall of U
-    T((STAIR_S+STAIR_N)/2,(STAIR_W_Y+STAIR_E_Y)/2,"STAIRS UP",3.5,"STR")
+    T((STAIR_S+STAIR_N)/2,(STAIR_W_Y+STAIR_E_Y)/2,"BEDROOM STAIRS",3,"STR")
 
     # fireplace on living room east wall
     fcx=(LIV_S+LIV_N)/2
