@@ -30,26 +30,27 @@ E = 6.0; I = 5.25
 DIN_W = E                         # 6  sunroom/dining west wall
 DIN_E = DIN_W + 222               # 228 dining/sunroom east wall (18'6")
 KIT_W = DIN_E + I                 # 233.25 kitchen west wall
-KIT_E = KIT_W + 138               # 371.25 (kitchen E-W ~11'6", = piano E-W)
 SPACE_W = KIT_W                   # piano room west
-SPACE_E = KIT_E                   # 371.25 piano east (open to living)
+SPACE_E = SPACE_W + 138           # 371.25 piano east (11'6")
 LIV_W = SPACE_E + I               # 376.5 living west wall
 LIV_E = LIV_W + 235               # 611.5 living east wall (19'7") = front/east
 EAST_OUT = LIV_E + E              # 617.5
 
-POW_E = KIT_E                     # powder east = kitchen east
-POW_W = POW_E - 61                # 310.25
-CLO_W = POW_W                     # closet west = powder west
-CLO_E = CLO_W + 24                # 334.25
-EAT_E = POW_W                     # eating east ~ powder west
-EAT_W = KIT_W - 50                # 183.25 (50" west of kitchen west wall)
 DEN_E = LIV_E - 48                # 563.5 (4' west of living east)
 DEN_W = DEN_E - 144               # 419.5
 PAN_E = DEN_W                     # pantry east = den west
 PAN_W = PAN_E - 29                # 390.5
+FRONTDOOR_Y = DEN_E - 48          # 515.5 (front door 4' west of den east)
+# entryway wall (front door) to powder/kitchen east wall = 11'5" = 137"
+KIT_E = FRONTDOOR_Y - 137         # 378.5 kitchen east = powder east
+POW_E = KIT_E                     # powder east = kitchen east
+POW_W = POW_E - 61                # 317.5
+CLO_W = POW_W                     # closet west = powder west
+CLO_E = CLO_W + 24                # 341.5
+EAT_E = POW_W                     # eating east = powder west
+EAT_W = EAT_E - 126               # 191.5 (eating 10'6")
 OPEN_W = EAT_W                    # open space west = eating area west wall
 OPEN_E = KIT_E                    # open space east = kitchen/powder east wall
-FRONTDOOR_Y = DEN_E - 48          # 515.5 (front door 4' west of den east)
 STAIR_W_Y = FRONTDOOR_Y           # stairs west edge = front-door wall line
 STAIR_E_Y = LIV_E                 # stairs east = living east
 
@@ -86,11 +87,17 @@ POW_N = KIT_S; POW_S = POW_N - 61 # powder (north = kitchen south)
 CLO_N = POW_S; CLO_S = CLO_N - 72 # closet (NW corner = powder SW corner)
 PAN_S = DEN_S; PAN_N = PAN_S + 46 # pantry (SE corner = den SW corner)
 
-# main stairs (double-wide 180-turn, on living room east wall, south edge = SUN_S)
-STAIR_S = SUN_S; STAIR_N = SUN_S + 96
-# stairs UP between den (north) and garage (south); landing east wall = den east
-UPSTAIR_N = DEN_S                 # 279 (south of den)
-UPSTAIR_S = GARAGE_N              # 240 (north of garage)
+# bedroom stairs (double-wide 180-turn, living room east wall).
+# bottom landing turns south with final 2 steps facing south; top of those 2 steps
+# is 130" from den north wall. landing extends 3' west; its west side is 8'4" east
+# of the kitchen east wall.
+STAIR_S = DEN_N + 130             # 553 top of 2 south-facing steps (main flights start)
+STAIR_N = STAIR_S + 96            # 649
+LANDING_W = KIT_E + 100           # 478.5 west side of south-turning landing (8'4" E of kitchen E)
+LANDING_S = SUN_S                 # 495 (= entry north / bottom of 2 steps)
+# loft stairs between den (north) and garage (south); landing east wall = den east
+UPSTAIR_N = DEN_S                 # south of den
+UPSTAIR_S = GARAGE_N              # north of garage
 
 def il(v):
     f,r = divmod(abs(v),12)
@@ -172,10 +179,13 @@ def generate():
     R(UPSTAIR_S, DEN_E-90, UPSTAIR_N-UPSTAIR_S, 90, "STR")
     T((UPSTAIR_S+UPSTAIR_N)/2, DEN_E-45, "LOFT STAIRS", 2.6, "STR")
 
-    # main stairs UP — double-wide on living room EAST wall, 180-deg turn
-    R(STAIR_S, STAIR_W_Y, STAIR_N-STAIR_S, STAIR_E_Y-STAIR_W_Y, "STR")
-    LN((STAIR_S+STAIR_N)/2, STAIR_W_Y, (STAIR_S+STAIR_N)/2, STAIR_E_Y, "STR")  # center wall of U
+    # BEDROOM STAIRS — double-wide 180-deg on living room east wall, with a
+    # bottom landing that extends west then turns south (final 2 steps face south)
+    R(STAIR_S, STAIR_W_Y, STAIR_N-STAIR_S, STAIR_E_Y-STAIR_W_Y, "STR")        # main flights
+    LN((STAIR_S+STAIR_N)/2, STAIR_W_Y, (STAIR_S+STAIR_N)/2, STAIR_E_Y, "STR") # center wall of U
+    R(LANDING_S, LANDING_W, STAIR_S-LANDING_S, STAIR_E_Y-LANDING_W, "STR")     # landing + 2 south steps
     T((STAIR_S+STAIR_N)/2,(STAIR_W_Y+STAIR_E_Y)/2,"BEDROOM STAIRS",3,"STR")
+    T((LANDING_S+STAIR_S)/2,(LANDING_W+STAIR_E_Y)/2,"landing",2.4,"STR")
 
     # fireplace on living room east wall
     fcx=(LIV_S+LIV_N)/2
