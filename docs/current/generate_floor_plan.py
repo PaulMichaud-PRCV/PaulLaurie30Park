@@ -91,10 +91,15 @@ PAN_S = DEN_S; PAN_N = PAN_S + 46 # pantry (SE corner = den SW corner)
 # bottom landing turns south with final 2 steps facing south; top of those 2 steps
 # is 130" from den north wall. landing extends 3' west; its west side is 8'4" east
 # of the kitchen east wall.
-STAIR_S = DEN_N + 130             # 553 top of 2 south-facing steps (main flights start)
-STAIR_N = STAIR_S + 96            # 649
-LANDING_W = KIT_E + 100           # 478.5 west side of south-turning landing (8'4" E of kitchen E)
-LANDING_S = SUN_S                 # 495 (= entry north / bottom of 2 steps)
+# bedroom stairs north = living room south (20'3" measured from stairs north to LR north)
+STAIR_N = LIV_S                   # 527.25
+STAIR_S = STAIR_N - 96            # 431.25 main flights ~96" N-S
+# landing is WEST of the bedroom stairs: 38" E-W, 72" N-S (north = stairs north,
+# down to south side of bottom step). West side 8'4" east of kitchen east wall.
+LANDING_W = KIT_E + 100           # 478.5 landing west side
+LANDING_E = LANDING_W + 38        # 516.5 landing east side (38" wide)
+LANDING_N = STAIR_N               # landing north = bedroom stairs north
+LANDING_S = LANDING_N - 72        # 72" to south side of bottom step
 # loft stairs between den (north) and garage (south); landing east wall = den east
 UPSTAIR_N = DEN_S                 # south of den
 UPSTAIR_S = GARAGE_N              # north of garage
@@ -183,9 +188,9 @@ def generate():
     # bottom landing that extends west then turns south (final 2 steps face south)
     R(STAIR_S, STAIR_W_Y, STAIR_N-STAIR_S, STAIR_E_Y-STAIR_W_Y, "STR")        # main flights
     LN((STAIR_S+STAIR_N)/2, STAIR_W_Y, (STAIR_S+STAIR_N)/2, STAIR_E_Y, "STR") # center wall of U
-    R(LANDING_S, LANDING_W, STAIR_S-LANDING_S, STAIR_E_Y-LANDING_W, "STR")     # landing + 2 south steps
+    R(LANDING_S, LANDING_W, LANDING_N-LANDING_S, LANDING_E-LANDING_W, "STR")   # landing (38"x72") + 2 south steps
     T((STAIR_S+STAIR_N)/2,(STAIR_W_Y+STAIR_E_Y)/2,"BEDROOM STAIRS",3,"STR")
-    T((LANDING_S+STAIR_S)/2,(LANDING_W+STAIR_E_Y)/2,"landing",2.4,"STR")
+    T((LANDING_S+LANDING_N)/2,(LANDING_W+LANDING_E)/2,"landing",2.2,"STR")
 
     # fireplace on living room east wall
     fcx=(LIV_S+LIV_N)/2
