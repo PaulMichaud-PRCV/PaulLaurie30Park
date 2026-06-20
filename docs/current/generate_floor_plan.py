@@ -83,7 +83,7 @@ LIV_N = DIN_N                     # living north = north wall
 LIV_S = LIV_N - 243               # 585.25 (20'3" N-S)
 ENTRY_S = DEN_N                   # 423
 ENTRY_N = SUN_S                   # 553 (main stairs south)
-POW_N = KIT_S; POW_S = POW_N - 61 # powder (north = kitchen south)
+POW_N = DEN_N; POW_S = POW_N - 61 # powder (north wall in line with den north wall)
 CLO_N = POW_S; CLO_S = CLO_N - 72 # closet (NW corner = powder SW corner)
 PAN_S = DEN_S; PAN_N = PAN_S + 46 # pantry (SE corner = den SW corner)
 
