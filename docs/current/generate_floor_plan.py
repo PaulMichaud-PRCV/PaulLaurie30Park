@@ -93,7 +93,8 @@ PAN_S = DEN_S; PAN_N = PAN_S + 46 # pantry (SE corner = den SW corner)
 # of the kitchen east wall.
 # bedroom stairs north = living room south (20'3" measured from stairs north to LR north)
 STAIR_N = LIV_S                   # 527.25
-STAIR_S = STAIR_N - 96            # 431.25 main flights ~96" N-S
+# entry wall 72" (den north to bedroom-stairs south); stairs south in line with kitchen south
+STAIR_S = KIT_S                   # 495 (= den north + 72 = kitchen south)
 # landing is WEST of the bedroom stairs: 38" E-W, 72" N-S (north = stairs north,
 # down to south side of bottom step). West side 8'4" east of kitchen east wall.
 LANDING_W = KIT_E + 100           # 478.5 landing west side
